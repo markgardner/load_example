@@ -1,7 +1,25 @@
-var http = require('http');
+var path = require('path'),
+	express = require('express');
+var app = express();
 
-var server = http.createServer(function(req, res) {
-	res.end('hello, I\'m ' + process.env.APP_NAME);
+app.set('view engine', 'jade');
+app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, '/bower_components')));
+
+app.get('/', function(req, res) {
+	res.render('index', {
+		app: process.env.APP_NAME
+	});
 });
 
-server.listen(9020);
+app.get('/req', function(req, res) {
+	res.writeHead(200, {
+		'Cache-Control': 'no-cache, no-store, must-revalidate',
+		Pragma: 'no-cache',
+		Expires: 0
+	});
+
+	res.end('success');
+});
+
+app.listen(9020);
