@@ -16,9 +16,13 @@ html
 
 				function makeReq() {
 					$.get(type)
-						.success(function() {
-							reqPerSec++;
-							reqSuccess++;
+						.success(function(res) {
+							if(res === 'success') {
+								reqPerSec++;
+								reqSuccess++;
+							} else {
+								reqError++;
+							}
 
 							makeReq();
 						})
