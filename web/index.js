@@ -22,4 +22,16 @@ app.get('/req', function(req, res) {
 	res.end('success');
 });
 
+app.get('/req-app', function(req, res) {
+	setTimeout(function() {
+		res.writeHead(200, {
+			'Cache-Control': 'no-cache, no-store, must-revalidate',
+			Pragma: 'no-cache',
+			Expires: 0
+		});
+
+		res.end('success');
+	}, 250);
+});
+
 app.listen(9020);

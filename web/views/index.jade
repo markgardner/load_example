@@ -11,10 +11,11 @@ html
 				var reqPerSec = 0, reqError = 0, reqSuccess = 0,
 					$reqPerSec = $('#req-per-sec'),
 					$reqSuccess = $('#req-success'),
-					$reqError = $('#req-error');
+					$reqError = $('#req-error'),
+					type = '/req';
 
 				function makeReq() {
-					$.get('/req')
+					$.get(type)
 						.success(function() {
 							reqPerSec++;
 							reqSuccess++;
@@ -37,22 +38,41 @@ html
 				}, 1000);
 
 				makeReq();
+				makeReq();
+				makeReq();
+				makeReq();
+
+				$('.btn-group .btn').click(function() {
+					$('.btn-group .btn.active').removeClass('active');
+
+					$(this).addClass('active');
+
+					type = $(this).attr('data-url');
+				});
 			});
 	body
 		div.container
-			h1 Load test app
+			h1 Load test app 
+				small#req-type Fast Requests
 
-			table.table
-				colgroup
-					col(style="width: 20%")
-					col(style="width: 80%")
-				tbody
-					tr
-						td Req per second
-						td#req-per-sec 345
-					tr
-						td Req success
-						td#req-success 456
-					tr
-						td Req errors
-						td#req-error 456
+			h2
+				div.btn-group
+					button.btn.btn-primary.active(type="button",data-url="/req") Fast Requests
+					button.btn.btn-primary(type="button",data-url="/req-app") Slow Requests
+
+			div.row
+				div.col-xs-12
+					table.table
+						colgroup
+							col(style="width: 20%")
+							col(style="width: 80%")
+						tbody
+							tr
+								td Req per second
+								td#req-per-sec
+							tr
+								td Req success
+								td#req-success
+							tr
+								td Req errors
+								td#req-error
